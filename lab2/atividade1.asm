@@ -1,13 +1,13 @@
-lw x1, a
-lw x2, b
-sw x1, m
-lw x3, m
-blt x2, x3, end1
+lw x20, a
+lw x21, b
+sw x20, m
+lw x22, m
+blt x21, x22, end1
 beq x0, x0, end2
 end1:
-	add x3, x1, x2
+	add x22, x20, x21
 end2:
-	sw x3, m
+	sw x22, m
 halt
 
 a: .word 0x19
