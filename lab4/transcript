@@ -1,0 +1,43 @@
+vlog alu_32.sv multiplier_datapath.sv multiplier_control.sv \
+     multiplier_top.sv multiplier_tb.sv
+# Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
+# Start time: 21:35:06 on Apr 01,2026
+# vlog -reportprogress 300 alu_32.sv multiplier_datapath.sv multiplier_control.sv multiplier_top.sv multiplier_tb.sv 
+# -- Compiling module alu_32
+# -- Compiling module multiplier_datapath
+# -- Compiling module multiplier_control
+# -- Compiling module multiplier_top
+# -- Compiling module multiplier_tb
+# 
+# Top level modules:
+# 	multiplier_tb
+# End time: 21:35:06 on Apr 01,2026, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+vsim work.multiplier_tb
+# vsim work.multiplier_tb 
+# Start time: 21:35:06 on Apr 01,2026
+# Loading sv_std.std
+# Loading work.multiplier_tb
+# Loading work.multiplier_top
+# Loading work.multiplier_datapath
+# Loading work.alu_32
+# Loading work.multiplier_control
+run -all
+# [PASS] zero x zero: 0 x 0 = 0
+# [PASS] 1 x 1: 1 x 1 = 1
+# [PASS] 6 x 7: 6 x 7 = 42
+# [PASS] 255 x 255: 255 x 255 = 65025
+# [PASS] 1000 x 1000: 1000 x 1000 = 1000000
+# [PASS] MAX x 1: 4294967295 x 1 = 4294967295
+# [PASS] MAX x MAX: 4294967295 x 4294967295 = 18446744065119617025
+# [PASS] 0xAAAAAAAA x 0x55555555: 2863311530 x 1431655765 = 4099276458915470450
+# [PASS] 123456789 x 987654321: 123456789 x 987654321 = 121932631112635269
+# Simulacao concluida.
+# ** Note: $finish    : multiplier_tb.sv(98)
+#    Time: 3270 ns  Iteration: 1  Instance: /multiplier_tb
+# 1
+# Break in Module multiplier_tb at multiplier_tb.sv line 98
+
+quit
+# End time: 21:41:28 on Apr 01,2026, Elapsed time: 0:06:22
+# Errors: 0, Warnings: 1

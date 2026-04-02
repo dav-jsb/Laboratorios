@@ -1,0 +1,131 @@
+m255
+K4
+z2
+!s11f vlog 2020.1 2020.02, Feb 28 2020
+13
+!s112 1.1
+!i10d 8192
+!i10e 25
+!i10f 100
+cModel Technology
+dC:/Users/david/OneDrive/Documentos/lab
+valu_32
+Z0 DXx6 sv_std 3 std 0 22 VYECXdT12H8WgbUP_5Y6:3
+Z1 !s110 1775090106
+!i10b 1
+!s100 ZhBoFMnMVI1z=Gf@EMG7H0
+Z2 !s11b Dg1SIo80bB@j0V0VzS_@n1
+Ib;Hfh5I7M;GaaY;l_1N6_2
+Z3 VDg1SIo80bB@j0V0VzS_@n1
+S1
+Z4 dC:/Users/david/Downloads/laboratorio 4
+w1775082214
+8alu_32.sv
+Falu_32.sv
+!i122 9
+L0 9 8
+Z5 OV;L;2020.1;71
+r1
+!s85 0
+31
+Z6 !s108 1775090106.000000
+!s107 multiplier_tb.sv|multiplier_top.sv|multiplier_control.sv|multiplier_datapath.sv|alu_32.sv|
+Z7 !s90 -reportprogress|300|alu_32.sv|multiplier_datapath.sv|multiplier_control.sv|multiplier_top.sv|multiplier_tb.sv|
+!i113 1
+Z8 tCvgOpt 0
+vmultiplier_control
+R0
+R1
+!i10b 1
+!s100 `W6`ECKZOjc<oXVKPN4]H2
+R2
+IjzE?K^AdUa=d>F:PdOeAY2
+R3
+S1
+R4
+w1775089854
+8multiplier_control.sv
+Fmultiplier_control.sv
+!i122 9
+L0 25 84
+R5
+r1
+!s85 0
+31
+R6
+Z9 !s107 multiplier_tb.sv|multiplier_top.sv|multiplier_control.sv|multiplier_datapath.sv|alu_32.sv|
+R7
+!i113 1
+R8
+vmultiplier_datapath
+R0
+R1
+!i10b 1
+!s100 TU5WlWAURQcJNzCP?B`eE3
+R2
+IlTCej7BL=Pd]CL5;>ClmI3
+R3
+S1
+R4
+w1775082291
+8multiplier_datapath.sv
+Fmultiplier_datapath.sv
+!i122 9
+L0 27 72
+R5
+r1
+!s85 0
+31
+R6
+R9
+R7
+!i113 1
+R8
+vmultiplier_tb
+R0
+R1
+!i10b 1
+!s100 `J86Da5FgC<o:F7@@>f<P3
+R2
+Ii?oigKU0Y31dCo<KAYfSR1
+R3
+S1
+R4
+w1775082246
+8multiplier_tb.sv
+Fmultiplier_tb.sv
+!i122 9
+L0 6 103
+R5
+r1
+!s85 0
+31
+R6
+R9
+R7
+!i113 1
+R8
+vmultiplier_top
+R0
+R1
+!i10b 1
+!s100 bLoPRz8JmzGaRlOid^]Tc3
+R2
+IKYARn3LaL>k6oKc@R?f:i1
+R3
+S1
+R4
+w1775082277
+8multiplier_top.sv
+Fmultiplier_top.sv
+!i122 9
+L0 12 44
+R5
+r1
+!s85 0
+31
+R6
+R9
+R7
+!i113 1
+R8

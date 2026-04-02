@@ -1,0 +1,36 @@
+{C:/Users/david/Downloads/laboratorio 4/alu_32.sv} {1 {vlog -work work -sv -stats=none {C:/Users/david/Downloads/laboratorio 4/alu_32.sv}
+Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
+-- Compiling module alu_32
+
+Top level modules:
+	alu_32
+
+} {} {}} {C:/Users/david/Downloads/laboratorio 4/multiplier_control.sv} {1 {vlog -work work -sv -stats=none {C:/Users/david/Downloads/laboratorio 4/multiplier_control.sv}
+Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
+-- Compiling module multiplier_control
+
+Top level modules:
+	multiplier_control
+
+} {} {}} {C:/Users/david/Downloads/laboratorio 4/multiplier_tb.sv} {1 {vlog -work work -sv -stats=none {C:/Users/david/Downloads/laboratorio 4/multiplier_tb.sv}
+Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
+-- Compiling module multiplier_tb
+
+Top level modules:
+	multiplier_tb
+
+} {} {}} {C:/Users/david/Downloads/laboratorio 4/multiplier_datapath.sv} {1 {vlog -work work -sv -stats=none {C:/Users/david/Downloads/laboratorio 4/multiplier_datapath.sv}
+Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
+-- Compiling module multiplier_datapath
+
+Top level modules:
+	multiplier_datapath
+
+} {} {}} {C:/Users/david/Downloads/laboratorio 4/multiplier_top.sv} {1 {vlog -work work -sv -stats=none {C:/Users/david/Downloads/laboratorio 4/multiplier_top.sv}
+Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
+-- Compiling module multiplier_top
+
+Top level modules:
+	multiplier_top
+
+} {} {}}
