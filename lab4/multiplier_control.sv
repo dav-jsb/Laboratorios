@@ -35,7 +35,7 @@ module multiplier_control (
     output logic compute_en   // Executa uma iteracao (add condicional + shift)
 );
 
-    typedef enum logic [3:0] {
+    typedef enum logic [3:0] { // Estados da FSM (usando one-hot)
         IDLE = 4'b0001,
         LOAD = 4'b0010,
         COMPUTE = 4'b0100,
@@ -44,10 +44,11 @@ module multiplier_control (
 
     state_t state, next_state;
 
-    logic [5:0] count;
-    logic count_en;
-    logic count_rst;
+    logic [5:0] count; // Contador dos ciclos COMPUTE
+    logic count_en; // Sinal do contador
+    logic count_rst; // Sinal de reset do contador
 
+    // Definição do funcionamento do contador
     always_ff @(posedge clk or negedge rst_n) begin
         if (!rst_n) count <= '0;
         
@@ -56,11 +57,13 @@ module multiplier_control (
         else if (count_en) count <= count + 6'd1;
     end
 
+    // Troca de estados com base no clock ou no rst_n
     always_ff @(posedge clk or negedge rst_n) begin
         if (!rst_n) state <= IDLE;
         else state <= next_state;
     end
 
+    // Bloco combinacional para determinação do próimo estado;
     always_comb begin
         next_state = state;
         case (state)
@@ -75,7 +78,9 @@ module multiplier_control (
         endcase
     end
 
+    // Bloco combinacional que define o que deve acontecer em cada estado
     always_comb begin
+        // Determinação de valores base para as variáveis de controle
         load = 1'b0;
         compute_en = 1'b0;
         done = 1'b0;
