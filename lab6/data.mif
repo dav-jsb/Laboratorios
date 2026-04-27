@@ -1,0 +1,12 @@
+DEPTH = 256;
+WIDTH = 32;
+ADDRESS_RADIX = HEX;
+DATA_RADIX = HEX;
+CONTENT BEGIN
+000 : 00000400;  -- [0] Base MMIO (para o x6)
+001 : 00000002;  -- [4] Mascara KEY1 (para o x7 - Zera)
+002 : 00000004;  -- [8] Mascara KEY2 (para o x28 - Dec)
+003 : 00000008;  -- [12] Mascara KEY3 (para o x29 - Inc)
+004 : 00000001;  -- [16] Constante 1 (para o x10)
+005 : 0000000E;  -- [20] Mascara Liberacao (para o x11 - Bits 1, 2 e 3)
+END;
