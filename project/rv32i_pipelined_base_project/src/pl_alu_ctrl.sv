@@ -10,7 +10,7 @@
 //   Funct7[6:0], Funct3[2:0] : campos da instrucao
 //
 // Saida Operation[3:0] -> pl_alu.sv:
-//   4'd01 ADD  4'd02 SUB  4'd04 OR  4'd05 AND  4'd11 SLT
+//   4'd01 ADD  4'd02 SUB  4'd04 OR  4'd05 AND  4'd11 SLT 4'd06 XOR
 // =============================================================================
 
 `timescale 1ns / 1ps
@@ -19,26 +19,42 @@ module pl_alu_ctrl (
     input  logic [1:0] ALUOp,
     input  logic [6:0] Funct7,
     input  logic [2:0] Funct3,
-    output logic [3:0] Operation
+    output logic [4:0] Operation
 );
+
+// XOR, SLL, SRL, SRA, SLTU, ADDI, ANDI, ORI, SLTI, SLLI, SRLI, SRAI
 
     always_comb begin
         case (ALUOp)
-            2'b00: Operation = 4'd01;   // Load / Store -> ADD
+            2'b00: Operation = 5'd01;   // Load / Store -> ADD
 
-            2'b01: Operation = 4'd02;   // Branch BEQ  -> SUB
+            2'b01: Operation = 5'd02;   // Branch BEQ  -> SUB
 
             2'b10: begin                // R-type: decodificar Funct
                 case (Funct3)
-                    3'h0: Operation = Funct7[5] ? 4'd02 : 4'd01; // SUB ou ADD
-                    3'h6: Operation = 4'd04;  // OR
-                    3'h7: Operation = 4'd05;  // AND
-                    3'h2: Operation = 4'd11;  // SLT
-                    default: Operation = 4'd01;
+                    3'h0: Operation = Funct7[5] ? 5'd02 : 5'd01; // SUB ou ADD
+
+                    3'h1: Operation = 5'd07;  // SLL
+
+                    3'h2: Operation = 5'd11;  // SLT
+
+                    3'h3: Operation = 5'd10;  // SLTU
+                    
+                    3'h4: Operation = 5'd06;  // XOR
+
+                    3'h5: Operation = Funct7[5] ? 5'd08 : 5'd09; // SRA ou SRL
+                    
+                    3'h6: Operation = 5'd04;  // OR
+
+                    3'h7: Operation = 5'd05;  // AND
+
+                    default: Operation = 5'd01;
                 endcase
             end
 
-            default: Operation = 4'd01;
+            2'b11:
+
+            default: Operation = 5'd01;
         endcase
     end
 
