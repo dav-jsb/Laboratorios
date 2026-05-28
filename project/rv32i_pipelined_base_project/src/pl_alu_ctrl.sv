@@ -26,7 +26,25 @@ module pl_alu_ctrl (
 
     always_comb begin
         case (ALUOp)
-            2'b00: Operation = 5'd01;   // Load / Store -> ADD
+            2'b00: begin                // I-type: decodificar Funct
+                case (Funct3)
+                    3'h2: Operation = 5'd01;  // Load / Store -> ADD
+
+                    3'h0: Operation = 5'd01;  // ADDI
+                    
+                    3'h7: Operation = 5'd05;  // ANDI
+                    
+                    3'h6: Operation = 5'd04;  // ORI
+                    
+                    3'h2: Operation = 5'd11;  // SLTI
+                    
+                    3'h1: Operation = 5'd07;  // SLLI
+                    
+                    3'h5: Operation = Funct7[5] ? 5'd08 : 5'd09;  // SRAI ou SRLI
+                    
+                    default: Operation = 5'd01;
+                endcase
+            end 
 
             2'b01: Operation = 5'd02;   // Branch BEQ  -> SUB
 
