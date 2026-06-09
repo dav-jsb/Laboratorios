@@ -65,8 +65,6 @@ module pl_alu_ctrl (
                     3'h1: Operation = 5'd07;  // SLLI
                     
                     3'h5: Operation = Funct7[5] ? 5'd08 : 5'd09;  // SRAI ou SRLI
-						  
-						  default: Operation = 5'd01;
                 endcase
             end
 
