@@ -318,7 +318,7 @@ module pl_datapath (
         .clk       (clk),
         .MemWrite  (ex_mem.mem_write & ~mmio_sel),
         .addr      (ex_mem.alu_result[9:2]),
-        .WriteData (ex_mem.write_data),
+        .WriteData (final_write_data),
         .ReadData  (dmem_rd)
     );
 
@@ -328,7 +328,7 @@ module pl_datapath (
         .MemWrite  (ex_mem.mem_write &  mmio_sel),
         .MemRead   (ex_mem.mem_read  &  mmio_sel),
         .addr      (ex_mem.alu_result[4:2]),
-        .WriteData (ex_mem.write_data),
+        .WriteData (final_write_data),
         .SW        (SW),
         .KEY       (KEY),
         .ReadData  (mmio_rd),
@@ -340,6 +340,89 @@ module pl_datapath (
 
     assign mem_read_data = mmio_sel ? mmio_rd : dmem_rd;
 
+    logic [31:0] final_write_data;
+    logic [31:0] final_read_data;
+    logic [1:0]  byte_offset;
+    assign byte_offset = ex_mem.alu_result[1:0];
+
+    always_comb begin
+        case (ex_mem.funct3)
+            3'b000: begin // LB
+                case (byte_offset)
+                    2'b00: final_read_data = {{24{mem_read_data[7]}},  mem_read_data[7:0]};
+                    2'b01: final_read_data = {{24{mem_read_data[15]}}, mem_read_data[15:8]};
+                    2'b10: final_read_data = {{24{mem_read_data[23]}}, mem_read_data[23:16]};
+                    2'b11: final_read_data = {{24{mem_read_data[31]}}, mem_read_data[31:24]};
+                    default: final_read_data = 32'b0;
+                endcase
+            end
+
+            3'b001: begin // LH 
+                case (byte_offset) 
+                    2'b00: final_read_data = {{16{mem_read_data[15]}}, mem_read_data[15:0]};
+                    2'b10: final_read_data = {{16{mem_read_data[31]}}, mem_read_data[31:16]};
+                    default: final_read_data = {{16{mem_read_data[15]}}, mem_read_data[15:0]};
+                endcase
+            end
+
+            3'b010: begin // LW 
+                final_read_data = mem_read_data;
+            end
+
+            3'b100: begin // LBU 
+                case (byte_offset)
+                    2'b00: final_read_data = {24'b0, mem_read_data[7:0]};
+                    2'b01: final_read_data = {24'b0, mem_read_data[15:8]};
+                    2'b10: final_read_data = {24'b0, mem_read_data[23:16]};
+                    2'b11: final_read_data = {24'b0, mem_read_data[31:24]};
+                    default: final_read_data = 32'b0;
+                endcase
+            end
+
+            3'b101: begin // LHU
+                case (byte_offset)
+                    2'b00: final_read_data = {16'b0, mem_read_data[15:0]};
+                    2'b10: final_read_data = {16'b0, mem_read_data[31:16]};
+                    default: final_read_data = {16'b0, mem_read_data[15:0]};
+                endcase
+            end
+
+            default: final_read_data = mem_read_data;
+        endcase
+    end
+
+    always_comb begin
+        // Padrão: Passa o dado bruto para qualquer instrução (ALU, Branches, etc.)
+        final_write_data = ex_mem.write_data; 
+        
+        if (ex_mem.mem_write) begin
+            case (ex_mem.funct3)
+                3'b000: begin // SB (Store Byte)
+                    case (byte_offset)
+                        2'b00:   final_write_data = {24'b0, ex_mem.write_data[7:0]};
+                        2'b01:   final_write_data = {16'b0, ex_mem.write_data[7:0], 8'b0};
+                        2'b10:   final_write_data = {8'b0,  ex_mem.write_data[7:0], 16'b0};
+                        2'b11:   final_write_data = {ex_mem.write_data[7:0], 24'b0};
+                        default: final_write_data = ex_mem.write_data;
+                    endcase
+                end
+
+                3'b001: begin // SH (Store Halfword)
+                    case (byte_offset[1])
+                        1'b0:    final_write_data = {16'b0, ex_mem.write_data[15:0]};
+                        1'b1:    final_write_data = {ex_mem.write_data[15:0], 16'b0};
+                        default: final_write_data = ex_mem.write_data;
+                    endcase
+                end
+
+                3'b010: begin // SW (Store Word)
+                    final_write_data = ex_mem.write_data;
+                end
+                
+                default: final_write_data = ex_mem.write_data;
+            endcase
+        end
+    end
     // Saidas de observabilidade para o testbench
     assign mem_wr_en   = ex_mem.mem_write & ~mmio_sel;
     assign mem_wr_addr = ex_mem.alu_result[9:2];
@@ -359,7 +442,7 @@ module pl_datapath (
             mem_wb.mem_to_reg <= ex_mem.mem_to_reg;
             mem_wb.reg_write  <= ex_mem.reg_write;
             mem_wb.alu_result <= ex_mem.alu_result;
-            mem_wb.read_data  <= mem_read_data;
+            mem_wb.read_data  <= final_read_data;
             mem_wb.rd         <= ex_mem.rd;
         end
     end
