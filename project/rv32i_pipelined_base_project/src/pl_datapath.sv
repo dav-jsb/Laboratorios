@@ -31,11 +31,13 @@ module pl_datapath (
     // Sinais de controle vindos do estagio ID (pl_control)
     input  logic        ALUSrc,
     input  logic        ALUSrcA,
-    input  logic        MemtoReg,
+    input  logic [1:0]  MemtoReg,
     input  logic        RegWrite,
     input  logic        MemRead,
     input  logic        MemWrite,
     input  logic        Branch,
+    input  logic        Jump,
+    input  logic        IsJALR,
     input  logic [2:0]  ALUOp,
 
     // Codigo de operacao da ALU (pl_alu_ctrl, usa campos do estagio EX)
@@ -153,7 +155,13 @@ module pl_datapath (
     );
 
     // Dado de write-back (mux WB): usado tambem pelo forwarding MEM/WB->EX
-    assign wb_data = mem_wb.mem_to_reg ? mem_wb.read_data : mem_wb.alu_result;
+    always_comb begin
+        case (mem_wb.mem_to_reg)
+            2'b01:   wb_data = mem_wb.read_data;  // Vem do LOAD
+            2'b10:   wb_data = mem_wb.pc_plus4;    // Vem do JAL (Link)
+            default: wb_data = mem_wb.alu_result;  // Vem da ALU (Tipo-R, I, LUI, AUIPC)
+        endcase
+    end
 
     pl_regfile regfile (
         .clk       (clk),
@@ -183,10 +191,13 @@ module pl_datapath (
         if (!rst_n) begin                      // reset assicrono (unico sinal na lista)
             id_ex.alu_src    <= 1'b0;
             id_ex.alu_srca   <= 1'b0;
-            id_ex.mem_to_reg <= 1'b0;
+            id_ex.mem_to_reg <= 2'b00;
             id_ex.reg_write  <= 1'b0;
             id_ex.mem_read   <= 1'b0;
             id_ex.mem_write  <= 1'b0;
+            id_ex.jump       <= 1'b0;
+            id_ex.is_jalr    <= 1'b0;
+            id_ex.pc_plus4   <= 32'b0;
             id_ex.alu_op     <= 3'b00;
             id_ex.branch     <= 1'b0;
             id_ex.pc         <= 32'b0;
@@ -201,10 +212,13 @@ module pl_datapath (
         end else if (stall || pc_src) begin    // NOP sincrono: load-use ou branch
             id_ex.alu_src    <= 1'b0;
             id_ex.alu_srca   <= 1'b0;
-            id_ex.mem_to_reg <= 1'b0;
+            id_ex.mem_to_reg <= 2'b00;
             id_ex.reg_write  <= 1'b0;
             id_ex.mem_read   <= 1'b0;
             id_ex.mem_write  <= 1'b0;
+            id_ex.jump       <= 1'b0;
+            id_ex.is_jalr    <= 1'b0;
+            id_ex.pc_plus4   <= 32'b0;
             id_ex.alu_op     <= 3'b00;
             id_ex.branch     <= 1'b0;
             id_ex.pc         <= 32'b0;
@@ -223,6 +237,9 @@ module pl_datapath (
             id_ex.reg_write  <= RegWrite;
             id_ex.mem_read   <= MemRead;
             id_ex.mem_write  <= MemWrite;
+            id_ex.jump       <= Jump;
+            id_ex.is_jalr    <= IsJALR;
+            id_ex.pc_plus4   <= if_id.pc + 32'd4;
             id_ex.alu_op     <= ALUOp;
             id_ex.branch     <= Branch;
             id_ex.pc         <= if_id.pc;
@@ -287,15 +304,16 @@ module pl_datapath (
     );
 
     // Branch resolvido no estagio EX (flush 2 instrucoes se taken)
-    assign branch_target = id_ex.pc + id_ex.imm_ext;
-    assign pc_src        = id_ex.branch && zero;
+    assign branch_target = id_ex.is_jalr ? alu_result : (id_ex.pc + id_ex.imm_ext);
+    assign pc_src        = (id_ex.branch && zero) || id_ex.jump;
 
     // =========================================================================
     // Registrador EX/MEM
     // =========================================================================
     always_ff @(posedge clk or negedge rst_n) begin
         if (!rst_n) begin
-            ex_mem.mem_to_reg  <= 1'b0;
+            ex_mem.mem_to_reg  <= 2'b00;
+            ex_mem.pc_plus4    <= 32'b0;
             ex_mem.reg_write   <= 1'b0;
             ex_mem.mem_read    <= 1'b0;
             ex_mem.mem_write   <= 1'b0;
@@ -305,6 +323,7 @@ module pl_datapath (
             ex_mem.funct3      <= 3'b0;
         end else begin
             ex_mem.mem_to_reg  <= id_ex.mem_to_reg;
+            ex_mem.pc_plus4    <= id_ex.pc_plus4;
             ex_mem.reg_write   <= id_ex.reg_write;
             ex_mem.mem_read    <= id_ex.mem_read;
             ex_mem.mem_write   <= id_ex.mem_write;
@@ -439,13 +458,15 @@ module pl_datapath (
     // =========================================================================
     always_ff @(posedge clk or negedge rst_n) begin
         if (!rst_n) begin
-            mem_wb.mem_to_reg <= 1'b0;
+            mem_wb.mem_to_reg <= 2'b00;
+            mem_wb.pc_plus4   <= 32'b0;
             mem_wb.reg_write  <= 1'b0;
             mem_wb.alu_result <= 32'b0;
             mem_wb.read_data  <= 32'b0;
             mem_wb.rd         <= 5'b0;
         end else begin
             mem_wb.mem_to_reg <= ex_mem.mem_to_reg;
+            mem_wb.pc_plus4   <= ex_mem.pc_plus4;
             mem_wb.reg_write  <= ex_mem.reg_write;
             mem_wb.alu_result <= ex_mem.alu_result;
             mem_wb.read_data  <= final_read_data;
