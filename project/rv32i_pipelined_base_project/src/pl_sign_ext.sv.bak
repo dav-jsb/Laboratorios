@@ -32,7 +32,7 @@ module pl_sign_ext (
             BRANCH: ImmExt = {{19{Instr[31]}}, Instr[31], Instr[7],
                                Instr[30:25], Instr[11:8], 1'b0};
             
-            I_TYPE: ImmExt = {{20{Instr[31]}}, Instr[31:20]};
+            I_TYPE: ImmExt = {{20{Inst[31]}}, Instr[31:20]};
 
             default: ImmExt = 32'b0;
         endcase
