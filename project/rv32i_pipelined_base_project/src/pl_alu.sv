@@ -33,6 +33,7 @@ module pl_alu (
             5'd09:   ALUResult = SrcA >> SrcB[4:0];
             5'd10:   ALUResult = $unsigned(SrcA) < $unsigned(SrcB) ? 32'b1: 32'b0;
             5'd11:   ALUResult = ($signed(SrcA) < $signed(SrcB)) ? 32'b1 : 32'b0;
+            5'd12:   ALUResult = SrcB;
 
             default: ALUResult = 32'b0;
         endcase
