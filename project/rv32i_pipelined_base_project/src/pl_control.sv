@@ -116,8 +116,8 @@ module pl_control (
                 ALUSrc = 1'b1;
                 IsJALR = 1'b1;
                 Jump = 1'b1;
-                
             end
+
             default: ; // sinais permanecem em zero (seguro)
         endcase
     end

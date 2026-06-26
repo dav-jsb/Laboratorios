@@ -52,7 +52,7 @@ module pl_cpu (
     logic [2:0] funct3_ex;
     logic [6:0] funct7_ex;
     logic [2:0] aluop_ex;
-    logic [3:0] alu_cc;
+    logic [4:0] alu_cc;
 
     // -------------------------------------------------------------------------
     // Unidade de controle principal (estagio ID)
