@@ -363,13 +363,15 @@ module pl_datapath (
         .UART_RXD  (UART_RXD)
     );
 
-    assign mem_read_data = mmio_sel ? mmio_rd : dmem_rd;
+    assign mem_read_data = mmio_sel ? mmio_rd : dmem_rd; //seleção de onde lerá o dado ( IO / mem )
 
     logic [31:0] final_write_data;
     logic [31:0] final_read_data;
     logic [1:0]  byte_offset;
     assign byte_offset = ex_mem.alu_result[1:0];
 
+
+    //Tratamento de tipos de Load ( LB, LH, LW, LBU, LHU)
     always_comb begin
         case (ex_mem.funct3)
             3'b000: begin // LB
@@ -416,8 +418,9 @@ module pl_datapath (
         endcase
     end
 
+    //Tratamento de tipos de Store ( SB, SH, SW)
     always_comb begin
-        // Padrão: Passa o dado bruto para qualquer instrução (ALU, Branches, etc.)
+
         final_write_data = ex_mem.write_data; 
         
         if (ex_mem.mem_write) begin
@@ -448,7 +451,7 @@ module pl_datapath (
             endcase
         end
     end
-    // Saidas de observabilidade para o testbench
+    // Saidas para o testbench
     assign mem_wr_en   = ex_mem.mem_write & ~mmio_sel;
     assign mem_wr_addr = ex_mem.alu_result[9:2];
     assign mem_wr_data = ex_mem.write_data;

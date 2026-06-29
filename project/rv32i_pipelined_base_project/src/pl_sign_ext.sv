@@ -25,24 +25,19 @@ module pl_sign_ext (
     localparam JAL    = 7'b1101111;
     localparam JALR   = 7'b1100111;
 
-    logic Zero_Comp = 1'b0;
-
+    
     always_comb begin
         case (Instr[6:0])
-            LOAD:       ImmExt = {{20{Instr[31]}}, Instr[31:20]};
-
+        
             STORE:      ImmExt = {{20{Instr[31]}}, Instr[31:25], Instr[11:7]};
 
-            BRANCH:     ImmExt = {{19{Instr[31]}}, Instr[31], Instr[7],
-                               Instr[30:25], Instr[11:8], 1'b0};
+            BRANCH:     ImmExt = {{19{Instr[31]}}, Instr[31], Instr[7],Instr[30:25], Instr[11:8], 1'b0};
             
-            I_TYPE:     ImmExt = {{20{Instr[31]}}, Instr[31:20]};
+            I_TYPE, JALR, LOAD:     ImmExt = {{20{Instr[31]}}, Instr[31:20]};
 
             LUI, AUIPC: ImmExt = {Instr[31:12], 12'b0};
 
             JAL:        ImmExt = {{12{Instr[31]}}, Instr[19:12], Instr[20], Instr[30:21], 1'b0};
-
-            JALR:       ImmExt = {{20{Instr[31]}}, Instr[31:20]};
 
             default:    ImmExt = 32'b0;
         endcase

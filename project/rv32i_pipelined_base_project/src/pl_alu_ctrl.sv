@@ -22,13 +22,11 @@ module pl_alu_ctrl (
     output logic [4:0] Operation
 );
 
-// XOR, SLL, SRL, SRA, SLTU, ADDI, ANDI, ORI, SLTI, SLLI, SRLI, SRAI
-
     always_comb begin
         case (ALUOp)
-            3'b000: Operation = 5'd01;  // Load / Store -> ADD
+            3'b000: Operation = 5'd01;  // Load / Store  
 
-            3'b001: begin   // BRANCHES
+            3'b001: begin   // BRANCHES Types
                 case (Funct3)
                     3'h0: Operation = 5'd02;  // BEQ  
                     3'h1: Operation = 5'd13;  // BNE  
@@ -40,7 +38,7 @@ module pl_alu_ctrl (
                 endcase
             end
 
-            3'b010: begin                // R-type: decodificar Funct
+            3'b010: begin                // R-type
                 case (Funct3)
                     3'h0: Operation = Funct7[5] ? 5'd02 : 5'd01; // SUB ou ADD
 
@@ -62,7 +60,7 @@ module pl_alu_ctrl (
                 endcase
             end
 
-            3'b011:begin
+            3'b011:begin                    // I-Type
                 case (Funct3)
                     3'h0: Operation = 5'd01;  // ADDI
                     

@@ -40,6 +40,8 @@ module pl_control (
     output logic [2:0] ALUOp
 );
 
+
+    //PARÂMETROS DE OPCODE 
     localparam R_TYPE = 7'b0110011;
     localparam LOAD   = 7'b0000011;
     localparam STORE  = 7'b0100011;
@@ -118,7 +120,7 @@ module pl_control (
                 Jump = 1'b1;
             end
 
-            default: ; // sinais permanecem em zero (seguro)
+            default: ; // sinais permanecem em zero 
         endcase
     end
 
