@@ -53,6 +53,8 @@ module pl_control (
     localparam JALR   = 7'b1100111;
 
     always_comb begin
+
+        // Sinais de identificação para identificar no estágio ID do Pipeline -> Têm valores alterados conforme o OPCODE
         ALUSrc   = 1'b0;
         ALUSrcA  = 1'b0;
         MemtoReg = 1'b00;

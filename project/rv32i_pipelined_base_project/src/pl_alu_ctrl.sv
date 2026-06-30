@@ -22,11 +22,14 @@ module pl_alu_ctrl (
     output logic [4:0] Operation
 );
 
+    // Com base no valor específico da ALUop a operação é diferenciada entre: branches, R-Type, I-Type e U-Type
+    // Em seguida, terá outra segmentação entre os Funct3. Caso tenham os dois primeiros níveis iguais, teremos como último nível o Funct7
+
     always_comb begin
         case (ALUOp)
             3'b000: Operation = 5'd01;  // Load / Store  
 
-            3'b001: begin   // BRANCHES Types
+            3'b001: begin   // Branch Types
                 case (Funct3)
                     3'h0: Operation = 5'd02;  // BEQ  
                     3'h1: Operation = 5'd13;  // BNE  
@@ -78,9 +81,9 @@ module pl_alu_ctrl (
                 endcase
             end
 
-            3'b100: Operation = 5'd12;
+            3'b100: Operation = 5'd12;         //LUI -> U-Type
 
-            3'b101: Operation = 5'd01;
+            3'b101: Operation = 5'd01;          
                 
             default: Operation = 5'd01;
         endcase

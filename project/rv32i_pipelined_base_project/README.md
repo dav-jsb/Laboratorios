@@ -3,100 +3,44 @@
 Processador RISC-V de 32 bits com pipeline de 5 estágios implementado em SystemVerilog, baseado nas seções 4.6 a 4.10 de *Computer Organization and Design: RISC-V Edition* (Patterson & Hennessy). O projeto tem como plataforma alvo a placa **DE2-115** (Intel Cyclone IV E) e é estruturado para servir de base para extensões do conjunto de instruções pelos alunos.
 
 ---
+### Instruções implementadas
 
-## Instruções suportadas
-
-| # | Instrução | Tipo | Opcode  | Status |
-|---|-----------|------|---------|:------:|
-| 1 | `ADD`     | R    | 0110011 | ✅ |
-| 2 | `SUB`     | R    | 0110011 | ✅ |
-| 3 | `OR`      | R    | 0110011 | ✅ |
-| 4 | `AND`     | R    | 0110011 | ✅ |
-| 5 | `SLT`     | R    | 0110011 | ✅ |
-| 6 | `LW`      | I    | 0000011 | ✅ |
-| 7 | `SW`      | S    | 0100011 | ✅ |
-| 8 | `BEQ`     | B    | 1100011 | ✅ |
-
-### Resumo de cobertura do ISA RV32I
-
-| Categoria          | Total ISA | Implementadas | Faltando |
-|--------------------|:---------:|:-------------:|:--------:|
-| R-type             | 10        | 5             | 5        |
-| I-type aritmético  | 9         | 0             | 9        |
-| I-type load        | 5         | 1 (LW)        | 4        |
-| S-type             | 3         | 1 (SW)        | 2        |
-| B-type             | 6         | 1 (BEQ)       | 5        |
-| U-type             | 2         | 0             | 2        |
-| J-type             | 2         | 0             | 2        |
-| **Total**          | **37**    | **8**         | **29**   |
-
-### Instruções a implementar — Etapa 01
-
-#### Aritmética, lógica e deslocamentos (R-type)
-
-| # | Instrução | Tipo | Opcode  | Status |
-|---|-----------|------|---------|:------:|
-| 1 | `XOR`     | R    | 0110011 | ❌ |
-| 2 | `SLL`     | R    | 0110011 | ❌ |
-| 3 | `SRL`     | R    | 0110011 | ❌ |
-| 4 | `SRA`     | R    | 0110011 | ❌ |
-| 5 | `SLTU`    | R    | 0110011 | ❌ |
-
-#### Aritmética, lógica e deslocamentos com imediatos (I-type)
-
-| # | Instrução | Tipo | Opcode  | Status |
-|---|-----------|------|---------|:------:|
-| 1 | `ADDI`    | I    | 0010011 | ❌ |
-| 2 | `ANDI`    | I    | 0010011 | ❌ |
-| 3 | `ORI`     | I    | 0010011 | ❌ |
-| 4 | `SLTI`    | I    | 0010011 | ❌ |
-| 5 | `SLLI`    | I    | 0010011 | ❌ |
-| 6 | `SRLI`    | I    | 0010011 | ❌ |
-| 7 | `SRAI`    | I    | 0010011 | ❌ |
-
-### Instruções a implementar — Etapa 02
-
-#### Acesso à memória — loads (I-type)
-
-| # | Instrução | Tipo | Opcode  | Status |
-|---|-----------|------|---------|:------:|
-| 1 | `LB`      | I    | 0000011 | ❌ |
-| 2 | `LH`      | I    | 0000011 | ❌ |
-| 3 | `LBU`     | I    | 0000011 | ❌ |
-| 4 | `LHU`     | I    | 0000011 | ❌ |
-
-#### Acesso à memória — stores (S-type)
-
-| # | Instrução | Tipo | Opcode  | Status |
-|---|-----------|------|---------|:------:|
-| 1 | `SB`      | S    | 0100011 | ❌ |
-| 2 | `SH`      | S    | 0100011 | ❌ |
-
-#### Desvios condicionais (B-type)
-
-| # | Instrução | Tipo | Opcode  | Status |
-|---|-----------|------|---------|:------:|
-| 1 | `BNE`     | B    | 1100011 | ❌ |
-| 2 | `BLT`     | B    | 1100011 | ❌ |
-| 3 | `BGE`     | B    | 1100011 | ❌ |
-| 4 | `BLTU`    | B    | 1100011 | ❌ |
-| 5 | `BGEU`    | B    | 1100011 | ❌ |
-
-#### Jumps (J-type)
-
-| # | Instrução | Tipo | Opcode  | Status |
-|---|-----------|------|---------|:------:|
-| 1 | `JAL`     | J    | 1101111 | ❌ |
-| 2 | `JALR`    | I    | 1100111 | ❌ |
-
-#### Imediato superior (U-type)
-
-| # | Instrução | Tipo | Opcode  | Status |
-|---|-----------|------|---------|:------:|
-| 1 | `LUI`     | U    | 0110111 | ❌ |
-| 2 | `AUIPC`   | U    | 0010111 | ❌ |
-
----
+| # | Instrução | Tipo | Opcode | Status |
+| :---: | :--- | :---: | :---: | :---: |
+| **1** | `ADD` | R | 0110011 | ✅ Implementado |
+| **2** | `SUB` | R | 0110011 | ✅ Implementado |
+| **3** | `OR` | R | 0110011 | ✅ Implementado |
+| **4** | `AND` | R | 0110011 | ✅ Implementado |
+| **5** | `XOR` | R | 0110011 | ✅ Implementado |
+| **6** | `SLL` | R | 0110011 | ✅ Implementado |
+| **7** | `SRL` | R | 0110011 | ✅ Implementado |
+| **8** | `SRA` | R | 0110011 | ✅ Implementado |
+| **9** | `SLT` | R | 0110011 | ✅ Implementado |
+| **10** | `SLTU` | R | 0110011 | ✅ Implementado |
+| **11** | `ADDI` | I | 0010011 | ✅ Implementado |
+| **12** | `ANDI` | I | 0010011 | ✅ Implementado |
+| **13** | `ORI` | I | 0010011 | ✅ Implementado |
+| **14** | `SLTI` | I | 0010011 | ✅ Implementado |
+| **15** | `SLLI` | I | 0010011 | ✅ Implementado |
+| **16** | `SRLI` | I | 0010011 | ✅ Implementado |
+| **17** | `SRAI` | I | 0010011 | ✅ Implementado |
+| **18** | `LW` | I | 0000011 | ✅ Implementado |
+| **19** | `LB` | I | 0000011 | ✅ Implementado |
+| **20** | `LH` | I | 0000011 | ✅ Implementado |
+| **21** | `LBU` | I | 0000011 | ✅ Implementado |
+| **22** | `LHU` | I | 0000011 | ✅ Implementado |
+| **23** | `SW` | S | 0100011 | ✅ Implementado |
+| **24** | `SB` | S | 0100011 | ✅ Implementado |
+| **25** | `SH` | S | 0100011 | ✅ Implementado |
+| **26** | `BEQ` | B | 1100011 | ✅ Implementado |
+| **27** | `BNE` | B | 1100011 | ✅ Implementado |
+| **28** | `BLT` | B | 1100011 | ✅ Implementado |
+| **29** | `BGE` | B | 1100011 | ✅ Implementado |
+| **30** | `BLTU` | B | 1100011 | ✅ Implementado |
+| **31** | `BGEU` | B | 1100011 | ✅ Implementado |
+| **32** | `JAL` | J | 1101111 | ✅ Implementado |
+| **33** | `JALR` | I | 1100111 | ✅ Implementado |
+| **34** | `LUI` | U | 0110111 | ✅ Implementado |
 
 ## Arquitetura
 

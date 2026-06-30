@@ -20,7 +20,7 @@ module pl_alu (
     output logic [31:0] ALUResult,
     output logic        Zero
 );
-
+    //Operações Brutas executadas pela ALU 
     always_comb begin
         case (Operation)
             5'd01:   ALUResult = $signed(SrcA) + $signed(SrcB); //ADD
@@ -31,14 +31,17 @@ module pl_alu (
             5'd07:   ALUResult = SrcA << SrcB[4:0]; //SLL
             5'd08:   ALUResult = $signed(SrcA) >>> SrcB[4:0]; //SRA
             5'd09:   ALUResult = SrcA >> SrcB[4:0]; //SRL
+
+            //A partir daqui, retirando a de número 12 (para LUI), todas geram saída de 0/1, pois são puramente lógicas
+            
             5'd10:   ALUResult = $unsigned(SrcA) < $unsigned(SrcB) ? 32'b1: 32'b0; //SLTU
             5'd11:   ALUResult = ($signed(SrcA) < $signed(SrcB)) ? 32'b1 : 32'b0;  //SLT
             5'd12:   ALUResult = SrcB; // Pass normal para LUI
             5'd13:   ALUResult = (SrcA != SrcB) ? 32'b0 : 32'b1;   //SEQ -> verifica igualdade                     
-            5'd14:   ALUResult = ($signed(SrcA) < $signed(SrcB)) ? 32'b0 : 32'b1;   //SGE -> verifica se maior ou igual        
-            5'd15:   ALUResult = ($signed(SrcA) >= $signed(SrcB)) ? 32'b0 : 32'b1;  //SLT -> verifica se menor        
-            5'd16:   ALUResult = ($unsigned(SrcA) < $unsigned(SrcB)) ? 32'b0 : 32'b1;   //SGEU -> verifica se maior ou igual unsigned   
-            5'd17:   ALUResult = ($unsigned(SrcA) >= $unsigned(SrcB)) ? 32'b0 : 32'b1;  //SLTU -> verifica se menor unsigned
+            5'd14:   ALUResult = ($signed(SrcA) < $signed(SrcB)) ? 32'b0 : 32'b1;    //SLT -> verifica se menor  
+            5'd15:   ALUResult = ($signed(SrcA) >= $signed(SrcB)) ? 32'b0 : 32'b1;   //SGE -> verifica se maior ou igual       
+            5'd16:   ALUResult = ($unsigned(SrcA) < $unsigned(SrcB)) ? 32'b0 : 32'b1;    //SLTU -> verifica se menor unsigned
+            5'd17:   ALUResult = ($unsigned(SrcA) >= $unsigned(SrcB)) ? 32'b0 : 32'b1;   //SGEU -> verifica se maior ou igual unsigned  
 
             default: ALUResult = 32'b0;
         endcase
