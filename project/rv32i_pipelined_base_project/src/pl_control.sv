@@ -57,8 +57,8 @@ module pl_control (
         // Sinais para identificar no estágio ID do Pipeline -> Têm valores alterados conforme o OPCODE
         ALUSrc   = 1'b0;
         ALUSrcA  = 1'b0;
-        MemtoReg = 1'b00;
-        RegWrite = 1'b0;
+        MemtoReg = 1'b00; // Pode vir da ALU (00), LOAD (01), JAL (10) 
+        RegWrite = 1'b0;  
         MemRead  = 1'b0;
         MemWrite = 1'b0;
         Branch   = 1'b0;
