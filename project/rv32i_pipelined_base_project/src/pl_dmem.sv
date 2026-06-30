@@ -25,15 +25,15 @@ module pl_dmem (
 
     // synthesis translate_off
     initial begin
-        for (int i = 0; i < 256; i++) ram[i] = 32'h00000000;
+        for (int i = 0; i < 256; i++) ram[i] = 32'h00000000; //Zera todos os enderços de memoria no começo
         $readmemh("data.hex", ram);
     end
     // synthesis translate_on
 
     always@(posedge clk) begin
-        if (MemWrite) ram[addr] <= WriteData;
+        if (MemWrite) ram[addr] <= WriteData; //o endereco da RAM e sobrescrito com o dado desejado
     end
 
-    assign ReadData = ram[addr];
+    assign ReadData = ram[addr]; //no caso de Load, o dado e lido da memoria e armazenado em ReadData
 
 endmodule
