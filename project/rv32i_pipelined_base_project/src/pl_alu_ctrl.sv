@@ -27,7 +27,7 @@ module pl_alu_ctrl (
 
     always_comb begin
         case (ALUOp)
-            3'b000: Operation = 5'd01;  // Load / Store  
+            3'b000: Operation = 5'd01;  // Load / Store / JALR
 
             3'b001: begin   // Branch Types
                 case (Funct3)
