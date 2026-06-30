@@ -32,7 +32,7 @@ module pl_alu (
             5'd08:   ALUResult = $signed(SrcA) >>> SrcB[4:0]; //SRA
             5'd09:   ALUResult = SrcA >> SrcB[4:0]; //SRL
 
-            //A partir daqui, retirando a de número 12 (para LUI), todas geram saída de 0/1, pois são puramente lógicas
+            //A partir daqui, retirando a de número 12 (para LUI), todas geram saída de 0/1, pois são puramente lógicas e precisam ser setadas
             
             5'd10:   ALUResult = $unsigned(SrcA) < $unsigned(SrcB) ? 32'b1: 32'b0; //SLTU
             5'd11:   ALUResult = ($signed(SrcA) < $signed(SrcB)) ? 32'b1 : 32'b0;  //SLT
