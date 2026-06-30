@@ -109,9 +109,9 @@ module pl_datapath (
     logic [31:0] instr_if;
 
     always_ff @(posedge clk or negedge rst_n) begin
-        if (!rst_n)      pc_reg <= 32'b0;
+        if (!rst_n)       <= 32'b0;           //Reseta tudo
         else if (pc_src) pc_reg <= branch_target;   // branch tem prioridade
-        else if (!stall) pc_reg <= pc_plus4;
+        else if (!stall) pc_reg <= pc_plus4;        //recebe o proximo endereço (PC+4)
         // else stall: PC mantido
     end
 
@@ -304,8 +304,8 @@ module pl_datapath (
     );
 
     // Branch resolvido no estagio EX (flush 2 instrucoes se taken)
-    assign branch_target = id_ex.is_jalr ? alu_result : (id_ex.pc + id_ex.imm_ext);
-    assign pc_src        = (id_ex.branch && zero) || id_ex.jump;
+    assign branch_target = id_ex.is_jalr ? alu_result : (id_ex.pc + id_ex.imm_ext); // Verfica JALR. Se sim -> Usa o resultado da ALU; se não -> Faz a soma do PC com o valor Imediato (Branches,JAL)
+    assign pc_src        = (id_ex.branch && zero) || id_ex.jump; //Sinal de controle para identificar se houve uma instrução de desvio
 
     // =========================================================================
     // Registrador EX/MEM
