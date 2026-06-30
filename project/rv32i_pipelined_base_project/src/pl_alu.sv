@@ -37,6 +37,8 @@ module pl_alu (
             5'd10:   ALUResult = $unsigned(SrcA) < $unsigned(SrcB) ? 32'b1: 32'b0; //SLTU
             5'd11:   ALUResult = ($signed(SrcA) < $signed(SrcB)) ? 32'b1 : 32'b0;  //SLT
             5'd12:   ALUResult = SrcB; // Pass normal para LUI
+
+            //Como estamos fazendo a comparação de ZERO com ALuResult, a operação deve ser invertida para o sinal de verificação no Datapath
             5'd13:   ALUResult = (SrcA != SrcB) ? 32'b0 : 32'b1;   //SEQ -> verifica igualdade                     
             5'd14:   ALUResult = ($signed(SrcA) < $signed(SrcB)) ? 32'b0 : 32'b1;    //SLT -> verifica se menor  
             5'd15:   ALUResult = ($signed(SrcA) >= $signed(SrcB)) ? 32'b0 : 32'b1;   //SGE -> verifica se maior ou igual       
