@@ -109,7 +109,7 @@ module pl_datapath (
     logic [31:0] instr_if;
 
     always_ff @(posedge clk or negedge rst_n) begin
-        if (!rst_n)       <= 32'b0;           //Reseta tudo
+        if (!rst_n)   pc_reg    <= 32'b0;           //Reseta tudo
         else if (pc_src) pc_reg <= branch_target;   // branch tem prioridade
         else if (!stall) pc_reg <= pc_plus4;        //recebe o proximo endereço (PC+4)
         // else stall: PC mantido
