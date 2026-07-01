@@ -1,6 +1,23 @@
-# RV32I Pipelined Base Project
+# RELATÓRIO DE IMPLEMENTAÇÃO
+Foi requisitado que os commites de implementação explicassem cada detalhamento do que foi feito, contudo o grupo não se atentou e esqueceu de fazer explicações mais detalhadas. Por isso, achamos necessário esse breve relatório apenas como direcionamento de explicação das implementações.
 
-Processador RISC-V de 32 bits com pipeline de 5 estágios implementado em SystemVerilog, baseado nas seções 4.6 a 4.10 de *Computer Organization and Design: RISC-V Edition* (Patterson & Hennessy). O projeto tem como plataforma alvo a placa **DE2-115** (Intel Cyclone IV E) e é estruturado para servir de base para extensões do conjunto de instruções pelos alunos.
+Seguindo o mesmo padrão das entregas:
+
+-> XOR, SLL, SRL, SRA, SLTU, ADDI, ANDI, ORI, SLTI, SLLI, SRLI, SRAI
+A maioria delas apenas precisou ser implementada no módulo de ALU, efetuando a operação e passando o valor no DataPath.
+Nessa implementação, tivemos que aumentar o tamanho do registrador de operações possíveis e os respectivos valores de passagem.
+Tivemos problemas com os Shifts pois havíamos interpretado de forma errada a sua implementação na ALU, mas conseguimos resolver.
+O problema residia na operação bruta, por isso tantos os shifts de U-Type e I-Type estavam dando problemas.
+
+-> LB, LH, LBU, LHU, SB, SH, BNE, BLT, BGE, BLTU, BGEU, JAL, JALR, LUI, AUIPC
+Nesse ponto, tivemos que alterar e gerar valores nos módulos de DataPath, da própria alu e alu_control, do módulo de controle e de extensão de sinal. Também fizemos alterações na primeira entrega em todos os módulos citados, mas a segunda entrega teve mais variações. 
+Basicamente para todas as operações citadas, tivemos que seguir o algoritmo:
+1. Como fazer a identificação de cada tipo de operação e passar os sinais no datapath? - módulo de Control;
+2. De que forma a operação irá passar pela ALU do sistema? - módulo de Alu e alu_control;
+3. Como se dará a extensão de sinal em cada subgrupo de instrução? - módulo de sign_ext;
+4. Quais alterações devem ser efetuadas no Datapth com base no que a Instrução exigirá?
+
+Todas essas perguntas foram feitas apenas como base. Operações de desvio foram as mais desafiadoras pois careciam de atenção extra acerca de onde precisaríamos buscar o valor a ser somado com o valor do PC ou como armazenar o endereço de destino.
 
 ---
 ### Instruções implementadas
