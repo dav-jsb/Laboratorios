@@ -3,13 +3,15 @@ Foi requisitado que os commites de implementação explicassem cada detalhamento
 
 Seguindo o mesmo padrão das entregas:
 
--> XOR, SLL, SRL, SRA, SLTU, ADDI, ANDI, ORI, SLTI, SLLI, SRLI, SRAI
+## XOR, SLL, SRL, SRA, SLTU, ADDI, ANDI, ORI, SLTI, SLLI, SRLI, SRAI
+
 A maioria delas apenas precisou ser implementada no módulo de ALU, efetuando a operação e passando o valor no DataPath.
 Nessa implementação, tivemos que aumentar o tamanho do registrador de operações possíveis e os respectivos valores de passagem.
 Tivemos problemas com os Shifts pois havíamos interpretado de forma errada a sua implementação na ALU, mas conseguimos resolver.
 O problema residia na operação bruta, por isso tantos os shifts de U-Type e I-Type estavam dando problemas.
 
--> LB, LH, LBU, LHU, SB, SH, BNE, BLT, BGE, BLTU, BGEU, JAL, JALR, LUI, AUIPC
+## LB, LH, LBU, LHU, SB, SH, BNE, BLT, BGE, BLTU, BGEU, JAL, JALR, LUI, AUIPC
+
 Nesse ponto, tivemos que alterar e gerar valores nos módulos de DataPath, da própria alu e alu_control, do módulo de controle e de extensão de sinal. Também fizemos alterações na primeira entrega em todos os módulos citados, mas a segunda entrega teve mais variações. 
 Basicamente para todas as operações citadas, tivemos que seguir o algoritmo:
 1. Como fazer a identificação de cada tipo de operação e passar os sinais no datapath? - módulo de Control;
