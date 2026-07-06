@@ -42,15 +42,15 @@ module pl_control (
 
 
     //PARÂMETROS DE OPCODE 
-    localparam R_TYPE = 7'b0110011;
     localparam LOAD   = 7'b0000011;
     localparam STORE  = 7'b0100011;
-    localparam BRANCH = 7'b1100011;
     localparam I_TYPE = 7'b0010011;
-    localparam LUI    = 7'b0110111;
-    localparam AUIPC  = 7'b0010111;
+    localparam R_TYPE = 7'b0110011;
+    localparam BRANCH = 7'b1100011;
     localparam JAL    = 7'b1101111;
     localparam JALR   = 7'b1100111;
+    localparam LUI    = 7'b0110111;
+    localparam AUIPC  = 7'b0010111;
 
     always_comb begin
 
