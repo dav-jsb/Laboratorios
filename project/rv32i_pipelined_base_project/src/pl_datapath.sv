@@ -304,7 +304,9 @@ module pl_datapath (
     );
 
     // Branch resolvido no estagio EX (flush 2 instrucoes se taken)
-    assign branch_target = id_ex.is_jalr ? alu_result : (id_ex.pc + id_ex.imm_ext); // Verfica JALR. Se sim -> Usa o resultado da ALU; se não -> Faz a soma do PC com o valor Imediato (Branches,JAL)
+    assign branch_target = id_ex.is_jalr ? alu_result : (id_ex.pc + id_ex.imm_ext); // Verfica JALR. Se sim -> Usa o resultado da ALU; 
+    //se não -> Faz a soma do PC com o valor Imediato (Branches,JAL)
+    
     assign pc_src        = (id_ex.branch && zero) || id_ex.jump; //Sinal de controle para identificar se houve uma instrução de desvio
 
     // =========================================================================
